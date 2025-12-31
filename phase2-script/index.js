@@ -15,7 +15,7 @@ async function runPhase2() {
   try {
     console.log("Fetching articles from API...");
 
-    // STEP 2.1 — Fetch article from API
+    //Fetch article from API
     const response = await axios.get(`${API_BASE_URL}/articles`);
     const articles = response.data;
 
@@ -56,6 +56,7 @@ async function runPhase2() {
       {
         title: externalTitle,
         content: externalContent,
+        url: EXTERNAL_REFERENCE_URL,
       }
     );
 

@@ -69,7 +69,7 @@ async function scrapeOldestArticles() {
 
     }
 
-    // 5. FINAL OUTPUT (MUST BE OUTSIDE LOOP)
+    // 5. FINAL OUTPUT 
     console.log("\nFINAL SCRAPED ARTICLES:\n");
 
     oldestFive.forEach((a, i) => {
@@ -78,7 +78,7 @@ async function scrapeOldestArticles() {
       console.log(`Link: ${a.link}`);
       console.log(`Content Preview: ${a.content.substring(0, 200)}...\n`);
     });
-    
+
     // db.all("SELECT id, title FROM articles", (err, rows) => {
     //     console.log("DB rows:", rows);
     //   });

@@ -5,7 +5,7 @@ Hi! This repository contains my submission for the **Full Stack Web Developer In
 
 Instead of rushing to add half-working features, I focused on building a clean, understandable system step by step. My main goal was to show that I can break down a real problem, make reasonable engineering decisions, and clearly document what I built and why.
 
----
+
 
 ## Project Overview
 
@@ -21,7 +21,6 @@ The assignment broadly aims to:
 
 To keep the system stable and easy to reason about, I divided the work into **three clear phases**, completing and testing each phase before moving to the next.
 
----
 
 ## Tech Stack
 
@@ -40,18 +39,15 @@ beyondchats-assignment/
 ├── backend/
 │   ├── db.js
 │   ├── index.js
-│   ├── routes.js
 │   ├── scraper.js
 │   ├── package.json
 │   └── package-lock.json
 │
 ├── frontend/
-│   ├── index.html
-│   └── .gitkeep
+│   └── index.html
 │
 ├── phase2-script/
-│   ├── index.js
-│   └── .gitkeep
+│   └── index.js
 │
 ├── .gitignore
 ├── README.md
@@ -86,9 +82,9 @@ All APIs were tested using Postman.
 **Status:**  
 ✅ Complete and tested.
 
----
 
-### Phase 2 – AI Enhancement Pipeline ⚠️ (Core Implemented)
+
+### Phase 2 – AI Enhancement Pipeline (Core Implemented)
 
 **Objective:**  
 Improve an article’s structure and readability by comparing it with external reference articles using an LLM-based approach.
@@ -104,7 +100,6 @@ Improve an article’s structure and readability by comparing it with external r
 
 Improved articles are stored separately to preserve original content and allow comparison.
 
----
 
 ### Why Google Scraping Was Not Used
 
@@ -137,7 +132,7 @@ This decision was made deliberately to keep the system honest, stable, and revie
 **Status:**  
 ⚠️ Core pipeline implemented, LLM output simulated.
 
----
+
 
 ### Phase 3 – Frontend UI ✅
 
@@ -160,7 +155,7 @@ The focus here is **integration and clarity**, not advanced UI design.
 **Status:**  
 ✅ Functional and integrated.
 
----
+
 
 ## Challenges & How I Solved Them
 
@@ -178,19 +173,17 @@ This was not a copy-paste exercise. Some real issues I faced:
 **Problem:** `Cannot POST /articles`  
 **Fix:** Forgot to restart the server after adding routes — a simple but important lesson.
 
----
+
 
 ## API Endpoints
 
-| Method | Endpoint | Description |
-|------|--------|------------|
-| GET | `/articles` | Fetch all articles |
-| GET | `/articles/:id` | Fetch article by ID |
-| POST | `/articles` | Add a new article |
+ GET -`/articles` - Fetch all articles 
+ GET -`/articles/:id` - Fetch article by ID 
+ POST- `/articles` - Add a new article 
 
----
 
-## 💻 Local Setup Instructions
+
+## Local Setup Instructions
 
 Clone the repository:
 
