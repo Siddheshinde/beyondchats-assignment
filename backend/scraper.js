@@ -1,5 +1,7 @@
 const axios = require("axios");
 const cheerio = require("cheerio");
+const db = require("./db");
+
 
 const BLOG_PAGE_URL = "https://beyondchats.com/blogs/page/14/";
 
@@ -49,6 +51,22 @@ async function scrapeOldestArticles() {
 
       // Debug check
       console.log("Content length:", article.content.length);
+
+      db.run(
+        `
+        INSERT OR IGNORE INTO articles (title, content, url, published_date)
+        VALUES (?, ?, ?, ?)
+        `,
+        [article.title, article.content, article.link, article.publishedDate],
+        (err) => {
+          if (err) {
+            console.error("DB insert error:", err.message);
+          } else {
+            console.log("Saved to DB:", article.title);
+          }
+        }
+      );
+
     }
 
     // 5. FINAL OUTPUT (MUST BE OUTSIDE LOOP)
@@ -60,6 +78,10 @@ async function scrapeOldestArticles() {
       console.log(`Link: ${a.link}`);
       console.log(`Content Preview: ${a.content.substring(0, 200)}...\n`);
     });
+    
+    // db.all("SELECT id, title FROM articles", (err, rows) => {
+    //     console.log("DB rows:", rows);
+    //   });
 
   } catch (error) {
     console.error("Scraping failed:", error.message);
