@@ -1,88 +1,202 @@
-BeyondChats Internship Assignment 🚀
-Submission by: Siddhesh Shinde
+BeyondChats Internship Assignment 🚀  
+**Submission by:** Siddhesh Shinde  
 
-Hi! This is my submission for the internship assignment. Instead of rushing to add broken features, I focused on building a clean, understandable backend system. I wanted to demonstrate that I can break down problems and document my actual engineering decisions.
+Hi! This repository contains my submission for the **Full Stack Web Developer Intern** assignment at **BeyondChats**.
 
- Project Overview
+Instead of rushing to add half-working features, I focused on building a clean, understandable system step by step. My main goal was to show that I can break down a real problem, make reasonable engineering decisions, and clearly document what I built and why.
 
-The Goal:
-Scrape blog articles from BeyondChats.
-Store them in a persistent database.
-Expose them via REST APIs.
-Enhance content (LLM integration).
-Display them on a frontend.
-I broke this down into three distinct phases to ensure stability at every step.
+---
 
-Tech Stack
-I chose a stack that favors simplicity and reproducibility over complexity.
-Runtime: Node.js
-Framework: Express.js (REST API)
-Scraping: Axios + Cheerio
-Database: SQLite (Lightweight, no setup required)
-Testing: Postman
+## Project Overview
 
-Project Structure
-backend/
+### The Goal
+
+The assignment broadly aims to:
+
+- Scrape blog articles from the BeyondChats website  
+- Store them in a persistent database  
+- Expose them through REST APIs  
+- Enhance article content using an LLM-based pipeline  
+- Display both original and enhanced articles on a frontend  
+
+To keep the system stable and easy to reason about, I divided the work into **three clear phases**, completing and testing each phase before moving to the next.
+
+---
+
+## Tech Stack
+
+I intentionally chose a stack that favors **simplicity, clarity, and reproducibility** over complexity.
+
+- **Runtime:** Node.js  
+- **Framework:** Express.js (REST APIs)  
+- **Web Scraping:** Axios + Cheerio  
+- **Database:** SQLite (lightweight, file-based, no setup overhead)  
+- **API Testing:** Postman  
+- **Frontend:** Plain HTML, CSS, and JavaScript
+
+## Project Structure
+beyondchats-assignment/
 │
-├── scraper.js          # Phase 1: The logic to fetch data
-├── db.js               # SQLite configuration
-├── articles.db         # Auto-generated database file
-├── index.js            # Express server & Routes
+├── backend/
+│   ├── db.js
+│   ├── index.js
+│   ├── routes.js
+│   ├── scraper.js
+│   ├── package.json
+│   └── package-lock.json
 │
-├── phase2-script/      # Phase 2: enhancement pipeline
-├── frontend/           # Phase 3: Minimal UI
-└── README.md
+├── frontend/
+│   ├── index.html
+│   └── .gitkeep
+│
+├── phase2-script/
+│   ├── index.js
+│   └── .gitkeep
+│
+├── .gitignore
+├── README.md
+├── package.json
+└── package-lock.json
 
 
-Progress & Phases
-Phase 1: Scraping & CRUD
-Objective: Fetch the oldest articles and store them.
-My Approach: I manually analyzed the site pagination. I noticed Page 15 had only one article, so I targeted Page 14 to get a proper list.
-Storage: Used SQLite with a unique constraint on URLs to prevent duplicates.
-Status: Complete & Tested.
-Phase 2: AI Enhancement Pipeline
-Objective: Improve article structure using an LLM.
-My Approach: I built a script to fetch an article, scrape a reference blog, and construct a prompt.
-The Reality Check: I ran into API quota limits with OpenAI and verification issues with Gemini.
-Decision: Instead of faking it or shipping broken code, I simulated the LLM output. The pipeline (fetching, prompting, saving) is real; only the text generation is mocked.
-Status: Core logic works, generation is simulated.
-Phase 3: Frontend
-Objective: Visualise the data.
-My Approach: A minimal HTML/JS page that hits my API.
-Status: Functional (Focus is on integration, not design).
+## Progress & Phases
 
-Challenges & How I Solved Them
-This wasn't a "smooth sailing" copy-paste job. Here is what actually happened:
-The "Empty Content" Bug:
-Problem: The scraper was returning null for article bodies.
-Fix: I realized the site uses Elementor (WordPress). Standard <p> tags weren't enough, so I had to inspect the DOM deep to find the actual content wrappers.
-The Duplicate Data Issue:
-Problem: Running the scraper twice duplicated every entry.
-Fix: Added a UNIQUE constraint to the url column in SQLite.
-Express Routing Errors:
-Problem: Cannot POST /articles.
-Fix: Classic mistake—I added the route but forgot to restart the server. 
+### Phase 1 – Blog Scraping & CRUD APIs ✅
 
-API Endpoints
-Method
-Endpoint
-Description
-GET
-/articles
-Fetch all scraped articles
-GET
-/articles/:id
-Get specific article details
-POST
-/articles
-Manually add a new article
+**Objective:**  
+Scrape the oldest blog articles from BeyondChats, store them persistently, and expose them via APIs.
 
-💻 Local Setup
-Want to run this locally? Here is how:
-Clone the repo:
-git clone [https://github.com/Siddheshinde/beyondchats-assignment.git](https://github.com/Siddheshinde/beyondchats-assignment.git)
+**My Approach:**
+
+- Manually analyzed the blog pagination instead of scraping blindly  
+- Noticed that **page 15 contained only one article**, so I targeted **page 14** to get a meaningful dataset  
+- Scraped data in two steps:
+  - Blog listing page → title & article URL  
+  - Individual article page → full content & published date  
+- Stored articles in SQLite with a **UNIQUE constraint on URLs** to prevent duplicate inserts  
+
+**APIs Implemented:**
+
+- `GET /articles` – fetch all articles  
+- `GET /articles/:id` – fetch article by ID  
+- `POST /articles` – manually add an article  
+
+All APIs were tested using Postman.
+
+**Status:**  
+✅ Complete and tested.
+
+---
+
+### Phase 2 – AI Enhancement Pipeline ⚠️ (Core Implemented)
+
+**Objective:**  
+Improve an article’s structure and readability by comparing it with external reference articles using an LLM-based approach.
+
+**My Approach:**
+
+- Built a standalone script that:
+  - Fetches articles from my own API (not directly from the DB)
+  - Selects an article intentionally to demonstrate the pipeline
+  - Scrapes an external reference blog article
+  - Constructs a structured prompt for enhancement
+  - Saves the enhanced version as a **new database entry**  
+
+Improved articles are stored separately to preserve original content and allow comparison.
+
+---
+
+### Why Google Scraping Was Not Used
+
+Direct Google scraping was intentionally avoided because:
+
+- Google aggressively blocks automated scraping
+- It introduces instability and unnecessary complexity
+- The purpose of Phase 2 is **system design**, not SEO ranking
+
+Instead, relevant external reference articles were selected manually to clearly demonstrate the enhancement pipeline.
+
+---
+
+### Why LLM Output Was Simulated
+
+I attempted real LLM integration using both **OpenAI** and **Google Gemini APIs**.
+
+However:
+- OpenAI ran into quota and billing limitations
+- Gemini caused model availability and API version issues
+
+Instead of faking output or shipping broken logic, I chose to **simulate the LLM output**.
+
+Important clarification:
+- The **pipeline is real** (fetching, scraping, prompt construction, saving results)
+- Only the final text generation step is mocked due to external API constraints
+
+This decision was made deliberately to keep the system honest, stable, and reviewable.
+
+**Status:**  
+⚠️ Core pipeline implemented, LLM output simulated.
+
+---
+
+### Phase 3 – Frontend UI ✅
+
+**Objective:**  
+Visualize original and improved articles through a frontend.
+
+**My Approach:**
+
+- Built a minimal HTML + CSS + JavaScript frontend
+- Frontend fetches data from `GET /articles`
+- Displays articles as clean cards
+- Clearly distinguishes:
+  - Original articles  
+  - Improved articles (with visual badges)
+
+CORS was enabled in the backend to allow frontend-backend communication during local development.
+
+The focus here is **integration and clarity**, not advanced UI design.
+
+**Status:**  
+✅ Functional and integrated.
+
+---
+
+## Challenges & How I Solved Them
+
+This was not a copy-paste exercise. Some real issues I faced:
+
+### 1. Empty Content While Scraping  
+**Problem:** Scraped article bodies were empty.  
+**Fix:** Discovered the site uses Elementor (WordPress). Standard `<p>` tags were insufficient, so I inspected the DOM deeply to find the correct content containers.
+
+### 2. Duplicate Data Insertion  
+**Problem:** Running the scraper multiple times duplicated entries.  
+**Fix:** Added a UNIQUE constraint on the `url` column in SQLite.
+
+### 3. Express Routing Error  
+**Problem:** `Cannot POST /articles`  
+**Fix:** Forgot to restart the server after adding routes — a simple but important lesson.
+
+---
+
+## API Endpoints
+
+| Method | Endpoint | Description |
+|------|--------|------------|
+| GET | `/articles` | Fetch all articles |
+| GET | `/articles/:id` | Fetch article by ID |
+| POST | `/articles` | Add a new article |
+
+---
+
+## 💻 Local Setup Instructions
+
+Clone the repository:
+
+```bash
+git clone https://github.com/Siddheshinde/beyondchats-assignment.git
 cd beyondchats-assignment/backend
-
 
 Install dependencies:
 npm install
@@ -98,6 +212,19 @@ node index.js
 
 Test: Open http://localhost:3000/articles in your browser or Postman.
 
-Thoughts
-This assignment was a great exercise in system design rather than just coding. I learned that handling edge cases (like API quotas or DOM structures) is where the real work lies.
-Thanks for reviewing my submission!
+Future Improvements
+
+If extended further, this project could include:
+An “Improve Article” button in the frontend to trigger enhancement on demand
+A backend endpoint to run the enhancement pipeline asynchronously
+Stable LLM integration for real-time generation
+Deployment of frontend and backend for a public live link
+Pagination and filtering for large datasets
+These were intentionally kept out of scope to keep the submission stable and focused.
+
+Final Thoughts
+
+This assignment was a great exercise in system design, not just writing code.
+I learned that real-world engineering often involves handling constraints like DOM complexity, API limits, and making trade-offs instead of forcing incomplete features.
+
+Thank you for taking the time to review my submission!
