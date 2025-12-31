@@ -1,132 +1,103 @@
-BeyondChats Internship Assignment
+BeyondChats Internship Assignment 🚀
+Submission by: Siddhesh Shinde
 
-This repository contains my submission for the Full Stack Web Developer Intern assignment at BeyondChats.
-The project is divided into phases as mentioned in the assignment.
-Currently, Phase 1 is completed.
+Hi! This is my submission for the internship assignment. Instead of rushing to add broken features, I focused on building a clean, understandable backend system. I wanted to demonstrate that I can break down problems and document my actual engineering decisions.
 
-Project Overview:
+ Project Overview
 
-The goal of this project is to:
+The Goal:
+Scrape blog articles from BeyondChats.
+Store them in a persistent database.
+Expose them via REST APIs.
+Enhance content (LLM integration).
+Display them on a frontend.
+I broke this down into three distinct phases to ensure stability at every step.
 
-scrape blog articles from the BeyondChats website,
-store them in a database,
-expose them using REST APIs,
-and later enhance and display them using scripts and a frontend.
-
-This repository focuses on building the backend step by step with clear reasoning and testing.
-
-Tech Stack Used
-Node.js – backend runtime
-Express.js – REST API framework
-Axios + Cheerio – web scraping
-SQLite – lightweight database
-Postman – API testing
+Tech Stack
+I chose a stack that favors simplicity and reproducibility over complexity.
+Runtime: Node.js
+Framework: Express.js (REST API)
+Scraping: Axios + Cheerio
+Database: SQLite (Lightweight, no setup required)
+Testing: Postman
 
 Project Structure
 backend/
 │
-├── scraper.js      # Scrapes blog articles
-├── db.js           # SQLite database setup
-├── articles.db     # Database file (generated at runtime)
-├── index.js        # Express server with CRUD APIs
+├── scraper.js          # Phase 1: The logic to fetch data
+├── db.js               # SQLite configuration
+├── articles.db         # Auto-generated database file
+├── index.js            # Express server & Routes
 │
-├── frontend/       # (Phase 3 – planned)
-├── phase2-script/  # (Phase 2 – planned)
+├── phase2-script/      # Phase 2: enhancement pipeline
+├── frontend/           # Phase 3: Minimal UI
 └── README.md
 
-Phase 1 – Blog Scraping & CRUD APIs ✅
-Objective
 
-To scrape the oldest blog articles from BeyondChats, store them persistently, and provide APIs to manage them.
+Progress & Phases
+Phase 1: Scraping & CRUD
+Objective: Fetch the oldest articles and store them.
+My Approach: I manually analyzed the site pagination. I noticed Page 15 had only one article, so I targeted Page 14 to get a proper list.
+Storage: Used SQLite with a unique constraint on URLs to prevent duplicates.
+Status: Complete & Tested.
+Phase 2: AI Enhancement Pipeline
+Objective: Improve article structure using an LLM.
+My Approach: I built a script to fetch an article, scrape a reference blog, and construct a prompt.
+The Reality Check: I ran into API quota limits with OpenAI and verification issues with Gemini.
+Decision: Instead of faking it or shipping broken code, I simulated the LLM output. The pipeline (fetching, prompting, saving) is real; only the text generation is mocked.
+Status: Core logic works, generation is simulated.
+Phase 3: Frontend
+Objective: Visualise the data.
+My Approach: A minimal HTML/JS page that hits my API.
+Status: Functional (Focus is on integration, not design).
 
-What I implemented
-
-Identified the pagination structure of BeyondChats blogs.
-Selected page 14 for scraping since page 15 contained only one article.
-
-Scraped article data in two steps:
-Blog listing page → title & URL
-Individual article pages → full content & published date
-Stored scraped articles in a SQLite database.
-Prevented duplicate inserts using a unique constraint on article URLs.
-
-Built REST APIs using Express.js:
-
-GET /articles
-GET /articles/:id
-POST /articles
-Tested all APIs using Postman.
-
-Challenges faced
-
-Content scraping issues:
-Initial selectors returned empty content because the site uses Elementor-based WordPress blocks.
-
-Finding correct HTML structure:
-Required careful inspection of the DOM instead of assuming standard <p> tags.
-
-Express routing error (Cannot POST /articles):
-Happened due to not restarting the server after adding routes.
-
-Duplicate data insertion:
-Fixed by adding a unique constraint on article URLs in the database.
-
-How I approached the problems
-
-Broke the task into small, testable steps.
-Used browser DevTools extensively before writing scraper logic.
-Added debug logs (like content length checks) to understand failures.
-Preferred simple, understandable solutions over complex abstractions.
-
-Design choices
-
-Used SQLite to keep setup simple and reproducible.
-Hardcoded the pagination page instead of auto-detecting it to avoid unnecessary complexity.
-Focused more on backend correctness than optimization.
-
-Limitations & future improvements
-
-Pagination detection can be automated.
-PUT and DELETE APIs can be enhanced with validation.
-Article content could be stored in a more structured format.
-Backend can be deployed instead of running locally.
+Challenges & How I Solved Them
+This wasn't a "smooth sailing" copy-paste job. Here is what actually happened:
+The "Empty Content" Bug:
+Problem: The scraper was returning null for article bodies.
+Fix: I realized the site uses Elementor (WordPress). Standard <p> tags weren't enough, so I had to inspect the DOM deep to find the actual content wrappers.
+The Duplicate Data Issue:
+Problem: Running the scraper twice duplicated every entry.
+Fix: Added a UNIQUE constraint to the url column in SQLite.
+Express Routing Errors:
+Problem: Cannot POST /articles.
+Fix: Classic mistake—I added the route but forgot to restart the server. 
 
 API Endpoints
-Method	Endpoint	Description
-GET	/articles	Fetch all articles
-GET	/articles/:id	Fetch article by ID
-POST	/articles	Create new article
-Local Setup Instructions
+Method
+Endpoint
+Description
+GET
+/articles
+Fetch all scraped articles
+GET
+/articles/:id
+Get specific article details
+POST
+/articles
+Manually add a new article
 
-Clone the repository:
-
-git clone https://github.com/Siddheshinde/beyondchats-assignment.git
+💻 Local Setup
+Want to run this locally? Here is how:
+Clone the repo:
+git clone [https://github.com/Siddheshinde/beyondchats-assignment.git](https://github.com/Siddheshinde/beyondchats-assignment.git)
 cd beyondchats-assignment/backend
 
 
 Install dependencies:
-
 npm install
 
 
-Run the scraper:
-
+Run the Scraper (Phase 1):
 node scraper.js
 
 
-Start the API server:
-
+Start the Server:
 node index.js
 
 
-Test APIs using Postman:
+Test: Open http://localhost:3000/articles in your browser or Postman.
 
-http://localhost:3000/articles
-
-Current Status
-
-Phase 1: ✅ Completed
-
-Phase 2: ⏳ Planned
-
-Phase 3: ⏳ Planned
+Thoughts
+This assignment was a great exercise in system design rather than just coding. I learned that handling edge cases (like API quotas or DOM structures) is where the real work lies.
+Thanks for reviewing my submission!

@@ -1,10 +1,11 @@
 const express = require("express");
 const db = require("./db");
+const cors = require("cors");
 
 const app = express();
 const PORT = 3000;
 
-// Middleware to parse JSON
+app.use(cors());
 app.use(express.json());
 
 // Health check
