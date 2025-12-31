@@ -175,6 +175,53 @@ This was not a copy-paste exercise. Some real issues I faced:
 
 
 
+## Architecture / Data Flow Diagram
+
+![Architecture Diagram](docs/architecture-diagram.drawio.png)
+
+
+## Live Demo
+
+The frontend for this project is designed to run locally and consumes data from
+the local backend API.
+
+### How to view the live demo locally:
+
+1. Start the backend server:
+   ```bash
+   cd backend
+   node index.js
+2.Ensure articles exist in the database:
+     ```bash
+    node scraper.js
+3.Run the Phase 2 enhancement pipeline:
+    cd ../phase2-script
+    node index.js
+This step:
+Fetches an article from the backend API
+Scrapes an external reference blog
+Generates an improved version of the article (LLM output simulated)
+Saves the improved article as a new entry in the database
+
+4.Open the frontend:
+    Navigate to the frontend/ folder
+    Open index.html in any browser
+The frontend fetches data from the backend API and displays:
+Original scraped articles
+Improved articles generated via the Phase 2 enhancement pipeline
+
+Note: The project can be easily deployed using services like Render (backend)
+and Netlify or Vercel (frontend). Deployment was intentionally kept out of scope
+to focus on core system design and functionality.
+
+
+## Frontend Preview
+Below is a screenshot of the frontend displaying both original and improved
+articles fetched from the backend API.
+![Frontend Preview](docs/frontend-preview1.png)
+![Frontend Preview](docs/frontend-preview2.png)
+
+
 ## API Endpoints
 
  GET -`/articles` - Fetch all articles 
